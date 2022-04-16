@@ -1,8 +1,21 @@
 from flask import Flask, render_template
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
 from data_models import userdb, Post, User
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
+
+
+class RegisterForm(FlaskForm):
+    username = StringField(label='User Name:')
+    email_address = StringField(label='Email Address:')
+    phone = StringField(label='Phone Number:')
+    interests = StringField(label='Interests (Space Separated): ')
+    password1 = PasswordField(label='Password:')
+    password2 = PasswordField(label='Confirm Password:')
+    submit = SubmitField(label='Create Account')
 
 authed_user = "first"
 
@@ -22,4 +35,14 @@ def profile_user():
 def profile_org():
     return render_template('orgprofile.html')
 
+@app.route('/register')
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(handle=form.username.data, email=form.email_address.data, phone_number=form.phone.data, interests=form.interests.data)
+    return render_template('register.html', form=form)
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 app.run()
