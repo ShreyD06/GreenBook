@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 import pickle
+import itertools as it
+import operator as op
 
 def make_db(path):
     class Db(dict):
@@ -78,3 +80,7 @@ class Event:
 
     def sync(self):
         organization.events[id(self)] = self
+
+    @staticmethod
+    def all_events(self):
+        return it.chain.from_iterable(map(lambda x: x.events.values(), orgdb))
