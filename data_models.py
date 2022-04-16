@@ -23,8 +23,9 @@ class User:
     email: str
     phone_number: str
     password_hash: int
-    bio: str
+    bio: str = ""
     posts: list = []
+    stats: dict = {}
 
     @staticmethod
     def check_handle(potential_handle):
@@ -38,23 +39,36 @@ class Post:
     author: User
     content: str
     date: str
-    stats: dict
+    tags: list
+    stats: dict = {}
 
-    def add_to_author(self):
-        author.posts.append(hash(self))
+    def _add_to_author(self):
+        author.posts.append(id(self))
         userdb.sync()
 
     def sync(self):
-        postdb[hash(self)] = self
+        postdb[id(self)] = self
 
 @dataclass
 class Organization:
     name: str
     admin: User
     description: str
+    events: dict = {}
 
     def confirm_admin(self):
         pass   # TODO
 
     def sync(self):
         orgdb[name] = self
+
+@dataclass
+class Event:
+    name: str
+    organization: Organization
+    admins: list
+    participants: list
+    tags: list = []
+
+    def sync(self):
+        organization.events[id(self)] = self
