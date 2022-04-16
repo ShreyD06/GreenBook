@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
+from feed import generate_feed
+from data_models import userdb, Post
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
@@ -15,9 +17,15 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField(label='Confirm Password:')
     submit = SubmitField(label='Create Account')
 
+authed_user = "first"
+
 @app.route('/')
 def home_page():
     return render_template('home.html')
+
+@app.route('/feed')
+def feed():
+    return render_template('feed.html', feed = generate_feed(userdb[authed_user]), type=type, Post=Post)
 
 @app.route('/profile')
 def profile_user():
@@ -37,3 +45,4 @@ def register():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
+app.run()
