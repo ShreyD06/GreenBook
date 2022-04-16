@@ -1,0 +1,9 @@
+<div style="border-style: solid">
+	@{{ i.handle }}
+	<br>
+	{{ i.bio }}
+	<br>
+	{% for p in i.interests %}
+		<div class="interest">{{ p }}</div>
+	{% endfor %}
+</div>
