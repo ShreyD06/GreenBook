@@ -11,8 +11,11 @@ def make_db(path):
             dict.__setitem__(self, key, value)
             self.sync()
         def sync(self):
-            with open(path, 'w') as f:
+            with open(path, 'wb') as f:
                 pickle.dump(self, f)        # FIXME: check
+        def clear(self):
+            with open(path, 'wb') as f:
+                f.write('')                 # FIXME: check
     return Db()
 
 userdb = make_db("./user.bin")
