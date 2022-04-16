@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
@@ -35,12 +35,14 @@ def profile_user():
 def profile_org():
     return render_template('orgprofile.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(handle=form.username.data, email=form.email_address.data, phone_number=form.phone.data, interests=form.interests.data)
+        return redirect(url_for('home_page'))
     return render_template('register.html', form=form)
+    
 
 @app.route('/settings')
 def settings():
