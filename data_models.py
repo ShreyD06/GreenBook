@@ -23,6 +23,7 @@ class User:
     email: str
     phone_number: str
     password_hash: int
+    interests: list
     bio: str = ""
     posts: list = []
     stats: dict = {}
@@ -49,11 +50,16 @@ class Post:
     def sync(self):
         postdb[id(self)] = self
 
+    @staticmethod
+    def all_posts():
+        return postdb.values()
+
 @dataclass
 class Organization:
     name: str
     admin: User
     description: str
+    topics: list = []
     events: dict = {}
 
     def confirm_admin(self):
