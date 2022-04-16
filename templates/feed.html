@@ -60,6 +60,8 @@
     {% for i in feed %}
     	{% if type(i) == Post %}
 	    {% include 'cards/post.html' %}
+	{% elif type(i) == User %}
+	    {% include 'cards/user.html' %}
 	{% endif %}
     {% endfor %}
   </body>

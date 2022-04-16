@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from feed import generate_feed
-from data_models import userdb, Post
+from data_models import userdb, Post, User
 
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def home_page():
 
 @app.route('/feed')
 def feed():
-    return render_template('feed.html', feed = generate_feed(userdb[authed_user]), type=type, Post=Post)
+    return render_template('feed.html', feed = generate_feed(userdb[authed_user]), type=type, Post=Post, User=User)
 
 @app.route('/profile')
 def profile_user():

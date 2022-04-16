@@ -6,7 +6,8 @@ def intersection(l1, l2):
 
 def generate_feed(user):   # TODO: order properly
     # TODO: make more efficient?
-    return [Post(User("dev", "dev@gb.org", "1717171717", hash("asdffdsa"), ["climate"]), "sample", "Jan 10 2022", ["climate"])]
+    u = User("dev", "dev@gb.org", "1717171717", hash("asdffdsa"), ["climate"], "I am developer")
+    return [Post(u, "sample", "Jan 10 2022", ["climate"]), u]
     return shuffle(
             [x for x in Post.all_posts() if intersection(x.tags, user.interests)] +
             [x for x in User.all_users() if intersection(x.interests, user.interests)] +
