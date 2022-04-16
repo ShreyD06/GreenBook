@@ -3,24 +3,23 @@ import pickle
 import itertools as it
 import operator as op
 
-def make_db(path):
+def make_db(path):     # TODO: handle already-created database
     class Db(dict):
-        def __init__(self):
-            self.path = path
         def __setitem__(self, key, value):
             dict.__setitem__(self, key, value)
             self.sync()
         def sync(self):
             with open(path, 'wb') as f:
-                pickle.dump(self, f)        # FIXME: check
+                pickle.dump(dict(self), f)        # FIXME: check
         def clear(self):
             with open(path, 'wb') as f:
-                f.write('')                 # FIXME: check
+                f.write(b'', f)                 # FIXME: check
+    try:
+        with open(path, 'rb') as f:
+            return Db(pickle.load(f))
+    except Exception as e:
+        print(e)
     return Db()
-
-userdb = make_db("./user.bin")
-postdb = make_db("./posts.bin")
-orgdb = make_db("./orgs.bin")
 
 @dataclass
 class User:
@@ -30,8 +29,8 @@ class User:
     password_hash: int
     interests: list
     bio: str = ""
-    posts: list = []
-    stats: dict = {}
+    posts: list = None
+    stats: dict = None
 
     @staticmethod
     def check_handle(potential_handle):
@@ -46,7 +45,7 @@ class Post:
     content: str
     date: str
     tags: list
-    stats: dict = {}
+    stats: dict = None
 
     def _add_to_author(self):
         author.posts.append(id(self))
@@ -64,8 +63,8 @@ class Organization:
     name: str
     admin: User
     description: str
-    topics: list = []
-    events: dict = {}
+    topics: list = None
+    events: dict = None
 
     def confirm_admin(self):
         pass   # TODO
@@ -79,7 +78,7 @@ class Event:
     organization: Organization
     admins: list
     participants: list
-    tags: list = []
+    tags: list = None
 
     def sync(self):
         organization.events[id(self)] = self
@@ -87,3 +86,8 @@ class Event:
     @staticmethod
     def all_events(self):
         return it.chain.from_iterable(map(lambda x: x.events.values(), orgdb))
+
+userdb = make_db("./user.bin")
+postdb = make_db("./posts.bin")
+orgdb = make_db("./orgs.bin")
+
