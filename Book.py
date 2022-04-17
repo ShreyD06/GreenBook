@@ -2,9 +2,10 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
-from data_models import userdb, Post, User, Organization
+from data_models import userdb, Post, User, Organization, Event, orgdb
 from send_sms import send_sms
 from datetime import date
+from phash import phash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
@@ -94,6 +95,45 @@ def event_register(eventid):
         event.participants.append(userdb[user])
         send_sms(event.organization.admin.phone_number, user.name)
 
+<<<<<<< HEAD
+=======
+@app.route('/ars/<eventid>/<handle>/<hours>', methods=['POST'])
+def ars(eventid, handle, hours):
+    hours = int(hours)
+    org = Organization.get_from_admin(userdb[authed_user()])
+    user = userdb[handle]
+    user.delta_rep(org, hours)
+    org.delta_rep(user)
+    ev = Event.from_id(eventid)
+    ev.participants = [x for x in ev.participants if type(x) is tuple and x[0] != user]
+    # ev.participants.remove((user, hours))   # FIXME
+    ev.sync()
+    orgdb.sync()
+    return redirect(f'/event/{eventid}')
+
+@app.route('/ars/decline/<eventid>/<handle>/<hours>', methods=['POST'])
+def remove_hours(eventid, handle, hours):
+    ev = Event.from_id(eventid)
+    ev.participants.remove((userdb[handle], hours))     # FIXME
+    return redirect(f'/event/{eventid}')
+
+@app.route('/event/<eventid>')
+def event_dashboard(eventid):
+    # if authed_user() == Event.from_id(eventid).organization.admin:
+    e = Event.from_id(eventid)
+    new = []
+    for x in e.participants:
+        if type(x) is not tuple:
+            new.append((x, 1))
+        else:
+            new.append(x)
+    e.participants = new
+    e.sync()
+    orgdb.sync()
+    return render_template('event_dashboard.html', ev = e, phash=phash)
+    return 'not valid'
+
+>>>>>>> b1cd2a89ef1d3b7162e174a57145d36d1d93bb2c
 @app.route('/register_organization', methods=['POST'])
 def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))

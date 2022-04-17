@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard for {{ ev.name }}
+{% endblock %}
+{% block content %}
+<ul>
+{% for user, hours in ev.participants %}
+<li>
+	<b>@{{ user.handle }}</b> requests {{ hours }} hours.
+	<form action="/ars/{{ phash(ev.name) }}/{{ user.handle }}/{{ hours }}" method="POST">
+		<input type="submit" value="Approve">
+	</form>
+	<form action="/ars/decline/{{ phash(ev.name) }}/{{ user.handle }}/{{ hours }}" method="POST">
+		<input type="submit" value="Decline">
+	</form>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

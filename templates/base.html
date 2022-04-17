@@ -44,6 +44,10 @@
             <li class="nav-item">
               <a class="nav-link" href={{ url_for('PostEvent') }}>Post Event</a>
             </li>
+	    <li class="nav-item">
+		    <a class="nav-link" href="/post">Create a Post</a>
+	    </li>
+
 	    {% endif %}
         </ul>
         <ul class="navbar-nav">
@@ -54,7 +58,7 @@
 	    <li class="nav-item">
                 <a class="nav-link" href={{ url_for('register') }}>Register</a>
             </li>
-	    {% else %}
+           	    {% else %}
 	    <li class="nav-item">
 		    <a class="nav-link" href={{ url_for("logout") }}>Logout</a>
 	    </li>
