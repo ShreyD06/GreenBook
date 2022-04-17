@@ -39,9 +39,11 @@ def profile_org():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(handle=form.username.data, email=form.email_address.data, phone_number=form.phone.data, interests=form.interests.data)
+        user_create = User(handle=form.username.data, email=form.email_address.data, phone_number=form.phone.data, interests=form.interests.data, password_hash=hash(form.password1.data))
+        print("Added")
         return redirect(url_for('home_page'))
     return render_template('register.html', form=form)
+
     
 
 @app.route('/settings')
