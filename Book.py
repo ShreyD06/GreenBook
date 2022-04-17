@@ -93,6 +93,17 @@ def event_register(eventid):
         event.participants.append((userdb[user], request.form.get("hours")))
         send_sms(event.organization.admin.phone_number, user.name)
 
+@app.route('/ars/<handle>/<hours>')
+def ars(handle, hours):
+    hours = int(hours)
+    org = get_from_admin(userdb[authed_user()])
+    user = userdb[handle]
+
+
+@app.route('/event/<eventid>')
+def event_dashboard(eventid):
+    pass
+
 @app.route('/register_organization', methods=['POST'])
 def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
