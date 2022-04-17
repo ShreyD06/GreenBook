@@ -81,6 +81,13 @@ class Organization:
     def all_orgs(self):
         return orgdb.values()
 
+    @staticmethod
+    def get_from_admin(self, user):
+        try:
+            return [x for x in Organization.all_orgs() if x.admin == user][0]
+        except IndexError:
+            return None
+
 @dataclass
 class Event:
     name: str
