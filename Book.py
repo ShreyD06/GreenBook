@@ -89,19 +89,15 @@ def event_register(eventid):
     event = Event.from_id(eventid)
     user = authed_user()
     if user is not None:
-<<<<<<< Updated upstream
         event.participants.append(userdb[user])
+        event.participants.append(user)
+        send_sms(event.organization.admin.phone_number, user.name)
 
 @app.route('/register_organization', methods=['POST'])
 def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
     org.sync()
     return redirect(url_for('profile_org'))
-=======
-        event.participants.append(user)
-        send_sms(event.organization.admin.phone_number, user.name)
->>>>>>> Stashed changes
-
 
 @app.route('/topics')
 def topics():
