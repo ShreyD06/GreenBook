@@ -3,6 +3,7 @@ import pickle
 import itertools as it
 import operator as op
 from phash import phash
+from ars import calculate_volunteer, calculate_organization
 
 def make_db(path):     # TODO: handle already-created database
     class Db(dict):
@@ -30,6 +31,7 @@ class User:
     password_hash: int
     interests: list
     bio: str = ""
+    reputation: int = 1
     posts: list = None
     stats: dict = None
 
@@ -43,6 +45,14 @@ class User:
 
     def sync(self):
         userdb[self.handle] = self
+
+    @staticmethod
+    def calculate_delta_rep(organization, hours):
+        return calculate_volunteer(organization.reputation, hours)
+
+    @staticmethod
+    def delta_rep(organization, hours):
+        organization.reputation += User.calculate_delta_rep(organization, hours)
 
 @dataclass
 class Post:
@@ -70,6 +80,7 @@ class Organization:
     description: str
     topics: list = None
     events: dict = None
+    reputation: int = 1
 
     def confirm_admin(self):
         pass   # TODO
@@ -87,6 +98,14 @@ class Organization:
             return [x for x in Organization.all_orgs() if x.admin == user][0]
         except IndexError:
             return None
+
+    @staticmethod
+    def calculate_delta_rep(user):
+        return calculate_organization(user.reputation)
+
+    @staticmethod
+    def delta_rep(user):
+        return user.reputation += Organization.calculate_delta_rep(user)
 
 @dataclass
 class Event:
