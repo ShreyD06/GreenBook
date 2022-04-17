@@ -79,5 +79,15 @@ def settings():
 def org_page():
     return render_template('orgprofile.html')
 
-app.run()
+@app.route('/event_register/<eventid>', methods=['POST'])
+def event_register(eventid):
+    event = Event.from_id(eventid)
+    user = authed_user()
+    if user is not None:
+        event.participants.append(user)
+
+# @app.route('/user/<handle>')
+# def user_page(handle):
+#     return render_template('user_page.html', handle = handle)
+
 app.run(debug=True)

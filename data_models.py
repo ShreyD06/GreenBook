@@ -100,6 +100,10 @@ class Event:
     def all_events(self):
         return it.chain.from_iterable(map(op.itemgetter('events'), Organization.all_orgs()))
 
+    @staticmethod
+    def from_id(self, eventid):
+        return [x for x in Event.all_events() if phash(x.name) == eventid][0]
+
 userdb = make_db("./user.bin")
 postdb = make_db("./posts.bin")
 orgdb = make_db("./orgs.bin")
