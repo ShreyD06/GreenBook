@@ -77,6 +77,14 @@ class Organization:
     def sync(self):
         orgdb[name] = self
 
+    @staticmethod
+    def all_orgs(self):
+        return orgdb.values()
+
+    @staticmethod
+    def all_events(self):
+        return it.chain.from_iterable(map(op.itemgetter('events'), Organization.all_orgs()))
+
 @dataclass
 class Event:
     name: str
