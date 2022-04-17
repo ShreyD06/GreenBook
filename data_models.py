@@ -75,14 +75,14 @@ class Organization:
         pass   # TODO
 
     def sync(self):
-        orgdb[name] = self
+        orgdb[self.name] = self
 
     @staticmethod
-    def all_orgs(self):
+    def all_orgs():
         return orgdb.values()
 
     @staticmethod
-    def get_from_admin(self, user):
+    def get_from_admin(user):
         try:
             return [x for x in Organization.all_orgs() if x.admin == user][0]
         except IndexError:

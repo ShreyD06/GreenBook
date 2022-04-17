@@ -38,7 +38,10 @@ def profile_user():
 @app.route('/myorganization')
 def profile_org():
     org = Organization.get_from_admin(userdb[authed_user()])
-    return render_template('orgprofile.html', name=org.name, desc=org.description, topics=org.topics, events=org.events)
+    if org is not None:
+        return render_template('orgprofile.html', exists=True, org=org)
+    else:
+        return render_template('orgprofile.html', exists=False)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

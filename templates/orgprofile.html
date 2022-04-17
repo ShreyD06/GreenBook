@@ -4,28 +4,32 @@
 {% endblock %}
 
 {% block content %}
-{% if Organization.get_from_admin(authed_user) is None %}
+{% if not exists %}
 	<p>You have no organization registered. Below, you can
 	register one:</p>
 	<form action="/register_organization" method="POST">
 		<label for="name">Name: </label>
 		<input name="name" type="text" id="name" required/>
+		<br>
 		<label for="description">Description: </label>
 		<input name="description" type="text" id="description"\>
+		<br>
 		<input type="submit" value="Register"/>
 	</form>
 {% else %}
-    <center><h1>Profile</h1></center>
-    <center>Organization Name: {{ name }}</center>
-    <center>Description: {{ desc }}</center>
-    <center>
-	    Topics:
-	    <ul>
-		    {% for topic in topics %}
-		    	<li>{{ topic }}</li>
-		    {% endfor %}
-	    </ul>
+    <center><h1>My Organization</h1></center>
+    <center>Organization Name: {{ org.name }}</center>
+    <center>Description: {{ org.description }}</center>
+    {% if org.topics != None %}
+	    <center>
+		    Topics:
+		    <ul>
+			    {% for topic in org.topics %}
+				<li>{{ topic }}</li>
+			    {% endfor %}
+		    </ul>
     </center>
-    <center>Insert Number of Members </center>
+    {% endif %}
+    <!-- Add upcoming events -->
 {% endif %}
 {% endblock %}
