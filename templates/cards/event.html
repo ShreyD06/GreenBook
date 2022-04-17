@@ -23,12 +23,12 @@
   <div class="container">
     <h4><b>@{{ i.organization } hosting {{ i.name }}}</b></h4> 
     <p>Come and attend!</p> 
+  </div>
   <form action="/event_register/{{ phash(i) }}" method="post">
-    <label for="hours">Hours: </label>
-    <input type="number" name="hours" id="hours"/>
+    <label for='hours'>Hours: </label>
+    <input type="text" name="hours" id="hours">
     <input type="submit" value="Register"/>
   </form>
-  </div>
 </div>
 <br>
 <br>

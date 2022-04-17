@@ -105,7 +105,7 @@ class Organization:
 
     @staticmethod
     def delta_rep(user):
-        return user.reputation += Organization.calculate_delta_rep(user)
+        user.reputation += Organization.calculate_delta_rep(user)
 
 @dataclass
 class Event:

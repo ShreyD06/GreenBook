@@ -22,8 +22,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href={{ url_for('home_page') }}>Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={{ url_for('topics') }}>Topics- Explore <span class="sr-only">(current)</span></a>
             </li>
 	    {% if authed_user != None %}
             <li class="nav-item">
@@ -34,13 +37,16 @@
             </li>
 	    <li class="nav-item">
               <a class="nav-link" href={{ url_for('feed') }}>Feed</a>
+            </li>            
+            <li class="nav-item">
+              <a class="nav-link" href={{ url_for('Post') }}>Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={{ url_for('PostEvent') }}>Post Event</a>
             </li>
 	    {% endif %}
         </ul>
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href={{ url_for('settings') }}>Settings</a>
-          </li>
 	    {% if authed_user == None %}
             <li class="nav-item">
 		    <a class="nav-link" href={{ url_for('login') }}>Login</a> <!-- FIXME: and following element  -->

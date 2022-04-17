@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create Event
+{% endblock %}
+
+{% block content %}
+<form action={{ url_for('PostEvent') }} method="POST">
+	<label for="content">Post Event Name: </label>
+	<input name="content" type="text"/>
+	<br>
+	<label for="org">Organization Name: </label>
+	<input name="org" type="text"/>
+    <br>
+	<label for="paticipants">Known Participants: </label>
+	<input name="participants" type="text"/>
+    <br>
+	<label for="tags">Tags (space seperated)</label>
+	<input name="tags" type="text"/>
+	<input type="submit" value="Post!"/>
+</form>
+{% endblock %}

@@ -89,26 +89,17 @@ def org_page():
 def event_register(eventid):
     event = Event.from_id(eventid)
     user = authed_user()
+    hours = request.form.get('hours')
     if user is not None:
-        event.participants.append((userdb[user], request.form.get("hours")))
+        event.participants.append(userdb[user])
         send_sms(event.organization.admin.phone_number, user.name)
-
-@app.route('/ars/<handle>/<hours>')
-def ars(handle, hours):
-    hours = int(hours)
-    org = get_from_admin(userdb[authed_user()])
-    user = userdb[handle]
-
-
-@app.route('/event/<eventid>')
-def event_dashboard(eventid):
-    pass
 
 @app.route('/register_organization', methods=['POST'])
 def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
     org.sync()
     return redirect(url_for('profile_org'))
+
 
 @app.route('/topics')
 def topics():
@@ -122,28 +113,45 @@ def Climate():
 def SocialJ():
     return render_template('socialj.html')
 
+
 @app.route('/education')
 def Education():
     return render_template('education.html')
+
 
 @app.route('/animalwelfare')
 def AnimalW():
     return render_template('animalwelfare.html')
 
+
 @app.route('/disasterrelief')
 def DisasterR():
     return render_template('disasterrelief.html')
 
-@app.route('/post', methods=['GET', 'POST'])
-def post():
-    if request.method == 'POST':
-        Post(
-            userdb[authed_user()],
-            request.form.get('content'),
-            str(date.today()),
-            request.form.get('tags').split()
-        ).sync()
+@app.route('/post')
+def Post():
     return render_template('make_post.html')
+
+@app.route('/post-confirm', methods = ['GET', 'POST'])
+def PConfirm():
+    today = date.today()
+    user = authed_user()
+    post = Post(author=userdb[user], content=request.form.get('content'), date=today, tags=request.form.get('tags').split(' '))
+    post.sync()
+    postdb.sync()
+    return redirect(url_for('home_page'))
+
+@app.route('/post_event', methods = ['GET', 'POST'])
+def PostEvent():
+    return render_template('make_event.html')
+
+
+@app.route('/event=confirm', methods = ['GET', 'POST'])
+def EConfirm():
+    event = Event(name=request.form.get('content'), organization=request.form.get('org'), participants=request.form.get('participants').split(' '))
+    event.sync()
+    orgdb.sync()
+    return redirect(url_for('home_page'))
 # @app.route('/user/<handle>')
 # def user_page(handle):
 #     return render_template('user_page.html', handle = handle)
