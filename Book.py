@@ -37,7 +37,8 @@ def profile_user():
 
 @app.route('/myorganization')
 def profile_org():
-    return render_template('orgprofile.html')
+    org = Organization.get_from_admin(userdb[authed_user()])
+    return render_template('orgprofile.html', name=org.name, desc=org.description, topics=org.topics, events=org.events)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -84,7 +85,13 @@ def event_register(eventid):
     event = Event.from_id(eventid)
     user = authed_user()
     if user is not None:
-        event.participants.append(user)
+        event.participants.append(userdb[user])
+
+@app.route('/register_organization', methods=['POST'])
+def register_organization():
+    org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
+    org.sync()
+    return redirect(url_for('profile_org'))
 
 # @app.route('/user/<handle>')
 # def user_page(handle):
