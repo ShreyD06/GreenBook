@@ -4,6 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
 from data_models import userdb, Post, User, Organization
 from send_sms import send_sms
+from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
@@ -89,11 +90,7 @@ def event_register(eventid):
     event = Event.from_id(eventid)
     user = authed_user()
     if user is not None:
-        event.participants.append(userdb[user])
-<<<<<<< HEAD
-=======
-        event.participants.append(user)
->>>>>>> 361b045fd34b72d635504eb2355b1a19641e12d4
+        event.participants.append((userdb[user], request.form.get("hours")))
         send_sms(event.organization.admin.phone_number, user.name)
 
 @app.route('/register_organization', methods=['POST'])
@@ -101,10 +98,6 @@ def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
     org.sync()
     return redirect(url_for('profile_org'))
-<<<<<<< HEAD
-
-=======
->>>>>>> 361b045fd34b72d635504eb2355b1a19641e12d4
 
 @app.route('/topics')
 def topics():
@@ -118,23 +111,27 @@ def Climate():
 def SocialJ():
     return render_template('socialj.html')
 
-
 @app.route('/education')
 def Education():
     return render_template('education.html')
-
 
 @app.route('/animalwelfare')
 def AnimalW():
     return render_template('animalwelfare.html')
 
-
 @app.route('/disasterrelief')
 def DisasterR():
     return render_template('disasterrelief.html')
 
-@app.route('/post')
-def Post():
+@app.route('/post', methods=['GET', 'POST'])
+def post():
+    if request.method == 'POST':
+        Post(
+            userdb[authed_user()],
+            request.form.get('content'),
+            str(date.today()),
+            request.form.get('tags').split()
+        ).sync()
     return render_template('make_post.html')
 # @app.route('/user/<handle>')
 # def user_page(handle):

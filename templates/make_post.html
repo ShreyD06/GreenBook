@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}
-    Post
+    Create Post
 {% endblock %}
 
 {% block content %}
-    
+<form action="/post" method="POST">
+	<label for="content">Post content: </label>
+	<input name="content" type="text"/>
+	<br>
+	<label for="tags">Tags (space seperated)</label>
+	<input name="tags" type="text"/>
+	<input type="submit" value="Post!"/>
+</form>
 {% endblock %}

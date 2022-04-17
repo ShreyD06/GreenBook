@@ -1,5 +1,7 @@
- - [ ] Organization management page (`/myorganization`)
- - [ ] Post making
+ - [x] Organization management page (`/myorganization`)
+ - [x] Post making
  - [ ] Profile editing
  - [ ] Setting editing
  - [ ] Topics: easy way to find organizations
+ - [ ] ARS
+   - [ ] Create hour management dashboard
