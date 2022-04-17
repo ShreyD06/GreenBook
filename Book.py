@@ -95,8 +95,6 @@ def event_register(eventid):
         event.participants.append(userdb[user])
         send_sms(event.organization.admin.phone_number, user.name)
 
-<<<<<<< HEAD
-=======
 @app.route('/ars/<eventid>/<handle>/<hours>', methods=['POST'])
 def ars(eventid, handle, hours):
     hours = int(hours)
@@ -133,7 +131,6 @@ def event_dashboard(eventid):
     return render_template('event_dashboard.html', ev = e, phash=phash)
     return 'not valid'
 
->>>>>>> b1cd2a89ef1d3b7162e174a57145d36d1d93bb2c
 @app.route('/register_organization', methods=['POST'])
 def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))

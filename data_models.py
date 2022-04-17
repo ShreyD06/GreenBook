@@ -46,12 +46,12 @@ class User:
     def sync(self):
         userdb[self.handle] = self
 
-    @staticmethod
-    def calculate_delta_rep(organization, hours):
-        return calculate_volunteer(organization.reputation, hours)
-
     def delta_rep(self, organization, hours):
         self.reputation += User.calculate_delta_rep(organization, hours)
+
+    @staticmethod
+    def all_users():
+        return userdb.values()
 
 @dataclass
 class Post:
@@ -102,14 +102,8 @@ class Organization:
     def calculate_delta_rep(user):
         return calculate_organization(user.reputation)
 
-<<<<<<< HEAD
-    @staticmethod
-    def delta_rep(user):
-        user.reputation += Organization.calculate_delta_rep(user)
-=======
     def delta_rep(self, user):
         self.reputation += Organization.calculate_delta_rep(user)
->>>>>>> b1cd2a89ef1d3b7162e174a57145d36d1d93bb2c
 
 @dataclass
 class Event:
