@@ -90,6 +90,10 @@ def event_register(eventid):
     user = authed_user()
     if user is not None:
         event.participants.append(userdb[user])
+<<<<<<< HEAD
+=======
+        event.participants.append(user)
+>>>>>>> 361b045fd34b72d635504eb2355b1a19641e12d4
         send_sms(event.organization.admin.phone_number, user.name)
 
 @app.route('/register_organization', methods=['POST'])
@@ -97,7 +101,10 @@ def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
     org.sync()
     return redirect(url_for('profile_org'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 361b045fd34b72d635504eb2355b1a19641e12d4
 
 @app.route('/topics')
 def topics():
