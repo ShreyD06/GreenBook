@@ -24,13 +24,13 @@
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('home_page') }}>Home <span class="sr-only">(current)</span></a>
             </li>
+	    {% if authed_user != None %}
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('profile_user') }}>Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href={{ url_for('profile_org') }}>My Organization</a>
             </li>
-	    {% if authed_user != None %}
 	    <li class="nav-item">
               <a class="nav-link" href={{ url_for('feed') }}>Feed</a>
             </li>
