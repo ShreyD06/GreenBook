@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
-from data_models import userdb, Post, User
+from data_models import userdb, Post, User, Organization
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
@@ -49,4 +49,9 @@ def register():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
+
+@app.route('/org_page')
+def org_page():
+    return render_template('orgprofile.html')
+
 app.run()

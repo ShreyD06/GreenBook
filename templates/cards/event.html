@@ -1,4 +1,3 @@
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .card {
@@ -19,18 +18,14 @@
 </head>
 <body>
 
-<h2>Users</h2>
 
 <div class="card">
   <div class="container">
-    <h4><b>@{{ i.handle }}</b></h4> 
-    <p>	
-		{{ i.bio }}
-		<br>
-		{% for p in i.interests %}
-			<div class="interest">{{ p }}</div>
-		{% endfor %}</p> 
+    <h4><b>@{{ i.organization } hosting {{ i.name }}}</b></h4> 
+    <p>Come and attend!</p> 
   </div>
 </div>
+<a href={{ url_for('org_page') }} class="btn btn-primary">Sign Up For Event</a>
+<br>
 <br>
 </body>

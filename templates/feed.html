@@ -5,12 +5,8 @@
     {% include 'cards/post.html' %}
   {% elif type(i) == User %}
     {% include 'cards/user.html' %}
+  {% elif type(i) == Event %}
+    {% include 'cards/event.html' %}
   {% endif %}
 {% endfor %}
-<style>
-  body {
-	background-color: #45d145;
-  color: rgb(15, 15, 15)
-}
-</style>
 {% endblock %}

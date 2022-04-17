@@ -5,6 +5,7 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 40%;
+
 }
 
 .card:hover {
@@ -21,12 +22,13 @@
 <h2>Posts</h2>
 
 <div class="card">
-  <img src="img_avatar.png" alt="Avatar" style="width:100%">
   <div class="container">
     <h4><b>@{{ i.author.handle }}</b></h4> 
     <p>{{ i.content }}</p> 
   </div>
 </div>
+<a href={{ url_for('org_page') }} class="btn btn-primary">Sign Up For Organization</a>
+<br>
 <br>
 </body>
 
