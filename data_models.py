@@ -81,10 +81,6 @@ class Organization:
     def all_orgs(self):
         return orgdb.values()
 
-    @staticmethod
-    def all_events(self):
-        return it.chain.from_iterable(map(op.itemgetter('events'), Organization.all_orgs()))
-
 @dataclass
 class Event:
     name: str
@@ -99,6 +95,10 @@ class Event:
     @staticmethod
     def all_events(self):
         return it.chain.from_iterable(map(lambda x: x.events.values(), orgdb))
+
+    @staticmethod
+    def all_events(self):
+        return it.chain.from_iterable(map(op.itemgetter('events'), Organization.all_orgs()))
 
 userdb = make_db("./user.bin")
 postdb = make_db("./posts.bin")
