@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from feed import generate_feed
 from data_models import userdb, Post, User, Organization
+from send_sms import send_sms
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8472a8730b5c7742bedfdb29'
@@ -88,6 +89,7 @@ def event_register(eventid):
     event = Event.from_id(eventid)
     user = authed_user()
     if user is not None:
+<<<<<<< Updated upstream
         event.participants.append(userdb[user])
 
 @app.route('/register_organization', methods=['POST'])
@@ -95,7 +97,42 @@ def register_organization():
     org = Organization(request.form.get('name'), userdb[authed_user()], request.form.get('description'))
     org.sync()
     return redirect(url_for('profile_org'))
+=======
+        event.participants.append(user)
+        send_sms(event.organization.admin.phone_number, user.name)
+>>>>>>> Stashed changes
 
+
+@app.route('/topics')
+def topics():
+    return render_template('topics.html')
+
+@app.route('/climate')
+def Climate():
+    return render_template('climate.html')
+
+@app.route('/socialjustice')
+def SocialJ():
+    return render_template('socialj.html')
+
+
+@app.route('/education')
+def Education():
+    return render_template('education.html')
+
+
+@app.route('/animalwelfare')
+def AnimalW():
+    return render_template('animalwelfare.html')
+
+
+@app.route('/disasterrelief')
+def DisasterR():
+    return render_template('disasterrelief.html')
+
+@app.route('/post')
+def Post():
+    return render_template('make_post.html')
 # @app.route('/user/<handle>')
 # def user_page(handle):
 #     return render_template('user_page.html', handle = handle)
