@@ -11,5 +11,6 @@ def generate_feed(user):   # TODO: order properly
     return shuffle(
             [x for x in Post.all_posts() if intersection(x.tags, user.interests)] +
             [x for x in User.all_users() if intersection(x.interests, user.interests)] +
-            [x for x in Organizations.all_orgs() if intersection(x.topics, user.interests)]
+            [x for x in Organizations.all_orgs() if intersection(x.topics, user.interests)] +
+            [x for x in Event.all_events() if intersection(x.organization.topics, user.interests)]
     )

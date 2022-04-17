@@ -75,7 +75,7 @@ def logout():
 def settings():
     return render_template('settings.html')
 
-@app.route('/org_page')
+@app.route('/sign_up_success')
 def org_page():
     return render_template('orgprofile.html')
 
