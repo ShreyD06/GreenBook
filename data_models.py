@@ -50,9 +50,8 @@ class User:
     def calculate_delta_rep(organization, hours):
         return calculate_volunteer(organization.reputation, hours)
 
-    @staticmethod
-    def delta_rep(organization, hours):
-        organization.reputation += User.calculate_delta_rep(organization, hours)
+    def delta_rep(self, organization, hours):
+        self.reputation += User.calculate_delta_rep(organization, hours)
 
 @dataclass
 class Post:
@@ -103,9 +102,8 @@ class Organization:
     def calculate_delta_rep(user):
         return calculate_organization(user.reputation)
 
-    @staticmethod
-    def delta_rep(user):
-        return user.reputation += Organization.calculate_delta_rep(user)
+    def delta_rep(self, user):
+        self.reputation += Organization.calculate_delta_rep(user)
 
 @dataclass
 class Event:
@@ -116,18 +114,17 @@ class Event:
     tags: list = None
 
     def sync(self):
-        organization.events[id(self)] = self
+        if self.organization.events is None:
+            self.organization.events = []
+        self.organization.events.append(self)
+        orgdb.sync()     # Some issues here, I think?
 
     @staticmethod
-    def all_events(self):
-        return it.chain.from_iterable(map(lambda x: x.events.values(), orgdb))
+    def all_events():
+        return it.chain.from_iterable(map(lambda x: x.events, orgdb.values()))
 
     @staticmethod
-    def all_events(self):
-        return it.chain.from_iterable(map(op.itemgetter('events'), Organization.all_orgs()))
-
-    @staticmethod
-    def from_id(self, eventid):
+    def from_id(eventid):
         return [x for x in Event.all_events() if phash(x.name) == eventid][0]
 
 userdb = make_db("./user.bin")
