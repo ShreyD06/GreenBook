@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import pickle
 import itertools as it
 import operator as op
+from phash import phash
 
 def make_db(path):     # TODO: handle already-created database
     class Db(dict):
@@ -35,6 +36,10 @@ class User:
     @staticmethod
     def check_handle(potential_handle):
         return potential_handle in userdb.keys()
+
+    @staticmethod
+    def auth(handle, password):
+        return userdb[handle].password_hash == phash(password)
 
     def sync(self):
         userdb[self.handle] = self

@@ -30,17 +30,28 @@
             <li class="nav-item">
               <a class="nav-link" href={{ url_for('profile_org') }}>My Organization</a>
             </li>
+	    {% if authed_user != None %}
+	    <li class="nav-item">
+              <a class="nav-link" href={{ url_for('feed') }}>Feed</a>
+            </li>
+	    {% endif %}
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href={{ url_for('settings') }}>Settings</a>
           </li>
+	    {% if authed_user == None %}
             <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
+		    <a class="nav-link" href={{ url_for('login') }}>Login</a> <!-- FIXME: and following element  -->
             </li>
-            <li class="nav-item">
+	    <li class="nav-item">
                 <a class="nav-link" href={{ url_for('register') }}>Register</a>
             </li>
+	    {% else %}
+	    <li class="nav-item">
+		    <a class="nav-link" href={{ url_for("logout") }}>Logout</a>
+	    </li>
+	    {% endif %}
         </ul>
       </div>
     </nav>
