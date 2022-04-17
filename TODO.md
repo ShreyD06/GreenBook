@@ -1,0 +1,4 @@
+ - [ ] Organization management page (`/myorganization`)
+ - [ ] Post making
+ - [ ] Profile editing
+ - [ ] Setting editing
