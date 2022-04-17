@@ -2,3 +2,4 @@
  - [ ] Post making
  - [ ] Profile editing
  - [ ] Setting editing
+ - [ ] Topics: easy way to find organizations
